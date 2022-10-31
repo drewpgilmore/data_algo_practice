@@ -2,6 +2,7 @@
 
 class Node:
     def __init__(self, data: str):
+        """Todo: enforce str types for node data"""
         try:
             self.data = data
         except TypeError as err:
