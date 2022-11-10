@@ -1,3 +1,4 @@
+#! /usr/bin/python3 
 # Linked List Data Structure Module
 
 class Node:
@@ -17,7 +18,8 @@ class LinkedList:
     def __init__(self):
         # starting node
         self.head = None
-    
+        self.length = 0
+
     def __repr__(self) -> str:
         node = self.head
         nodes = []
@@ -28,6 +30,22 @@ class LinkedList:
         # signify end of ll
         nodes.append("End")
         return " -> ".join(nodes)
+
+    def isEmpty(self):
+        if self.head is None:
+            return True
+        else:
+            return False
+
+    def getLength(self):
+        length = 0
+        if not self.isEmpty():
+            n = self.head
+            length += 1
+            while n.next is not None:
+                length += 1
+                n = n.next
+        return length
 
     # Inserting
     def insertFirst(self, node):
@@ -46,7 +64,7 @@ class LinkedList:
         n.next = node
 
     def insertAfter(self, after, node):
-        '''Inserts node after target node'''
+        """Inserts node after target node"""
         if self.head is None:
             self.head = node
 
@@ -59,12 +77,11 @@ class LinkedList:
         n.next = node
         node.next = newNext
     
-    
     # Delete node 
     def contains(self, node) -> bool:
         '''Helper function to determine if node is in list'''
-        if self.head is None:
-            print('Empty List')
+        if self.isEmpty:
+            print('Empty list')
             return False
         
         n = self.head
@@ -74,7 +91,6 @@ class LinkedList:
             n = n.next
         
         return True
-
 
     def deleteNode(self, node):
         '''Deletes node from list'''
@@ -88,3 +104,36 @@ class LinkedList:
             n = n.next
 
         n.next = n.next.next
+
+    def reverse(self):
+        pass
+    
+    def sort(self, method='ascending'):
+        """Returns sorted list according to method
+        method (str): 'ascending' or 'descending' 
+        """
+        if self.isEmpty():
+            print('Empty list')
+            pass
+        
+        n = self.head
+        while n.next is not None:
+            a = n.data
+            b = n.next.data
+            if int(b) < int(a):
+                n.data = b
+                n.next.data = a
+                n = self.head
+            else:
+                n = n.next
+            print(self.__repr__())
+        return self
+
+    def isCircular(self):
+        """Determine if list repeats itself"""
+        pass
+
+
+def compare(ll1, ll2):
+    """Compare 2 linked lists and find similarities"""
+    pass
