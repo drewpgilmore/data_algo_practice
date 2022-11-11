@@ -161,7 +161,6 @@ def compare(ll1, ll2) -> str:
     """Compare 2 linked lists and find similarities"""
     l1 = ll1.getLength()
     l2 = ll2.getLength()
-    print(f'l1={l1}, l2={l2}')
     inCommon = []
     
     for i in range(min(l1, l2)):
