@@ -61,6 +61,7 @@ class LinkedList:
     def insertFirst(self, node):
         node.next = self.head # make node point to current head
         self.head = node
+        return self
 
     def insertLast(self, node):
         if self.head is None:
@@ -72,6 +73,7 @@ class LinkedList:
             n = n.next
 
         n.next = node
+        return self
 
     def insertAfter(self, after, node):
         """Inserts node after target node"""
@@ -86,6 +88,7 @@ class LinkedList:
         newNext = n.next
         n.next = node
         node.next = newNext
+        return self
     
     # Delete node 
     def contains(self, node) -> bool:
@@ -115,6 +118,8 @@ class LinkedList:
 
         n.next = n.next.next
 
+        return self
+
     def reverse(self):
         n = self.head
         while n.next is not None:     
@@ -137,7 +142,7 @@ class LinkedList:
         while n.next is not None:
             a = n.data
             b = n.next.data
-            if int(b) < int(a):
+            if (method == 'ascending' and int(b) < int(a)) or (method == 'descending' and int(b) > int(a)):
                 n.data = b
                 n.next.data = a
                 n = self.head
@@ -155,14 +160,3 @@ class LinkedList:
 def compare(ll1, ll2):
     """Compare 2 linked lists and find similarities"""
     pass
-
-llist = LinkedList()
-llist.head = Node('1')
-llist.insertLast(Node('2'))
-llist.insertLast(Node('3'))
-llist.insertLast(Node('4'))
-llist.insertLast(Node('5'))
-
-ll = llist.reverse()
-print(ll)
-#print(llist)
