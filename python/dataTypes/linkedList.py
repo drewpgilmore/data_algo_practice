@@ -80,7 +80,7 @@ class LinkedList:
 
         # traverse list to node to insert after
         n = self.head
-        while n != after:
+        while n.data != after.data:
             n = n.next
 
         newNext = n.next
@@ -143,7 +143,7 @@ class LinkedList:
                 n = self.head
             else:
                 n = n.next
-            print(self.__repr__())
+            #print(self.__repr__())
         return self
 
     def isCircular(self):
