@@ -47,6 +47,16 @@ class LinkedList:
                 n = n.next
         return length
 
+    def traverseTo(self, index) -> Node:
+        """Traverses to nth item in list"""
+        n = self.head
+        length = 1
+        while length <= index:
+            n = n.next
+            length += 1
+
+        return n
+
     # Inserting
     def insertFirst(self, node):
         node.next = self.head # make node point to current head
@@ -80,8 +90,8 @@ class LinkedList:
     # Delete node 
     def contains(self, node) -> bool:
         '''Helper function to determine if node is in list'''
-        if self.isEmpty:
-            print('Empty list')
+        if self.isEmpty():
+            print('isEmpty returned True: list is empty')
             return False
         
         n = self.head
@@ -106,7 +116,14 @@ class LinkedList:
         n.next = n.next.next
 
     def reverse(self):
-        pass
+        n = self.head
+        while n.next is not None:     
+            a = n.next
+            self.deleteNode(a)
+            self.insertFirst(a)
+
+        return self
+
     
     def sort(self, method='ascending'):
         """Returns sorted list according to method
@@ -131,9 +148,21 @@ class LinkedList:
 
     def isCircular(self):
         """Determine if list repeats itself"""
+
         pass
 
 
 def compare(ll1, ll2):
     """Compare 2 linked lists and find similarities"""
     pass
+
+llist = LinkedList()
+llist.head = Node('1')
+llist.insertLast(Node('2'))
+llist.insertLast(Node('3'))
+llist.insertLast(Node('4'))
+llist.insertLast(Node('5'))
+
+ll = llist.reverse()
+print(ll)
+#print(llist)
