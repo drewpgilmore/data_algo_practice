@@ -157,6 +157,17 @@ class LinkedList:
         pass
 
 
-def compare(ll1, ll2):
+def compare(ll1, ll2) -> str:
     """Compare 2 linked lists and find similarities"""
-    pass
+    l1 = ll1.getLength()
+    l2 = ll2.getLength()
+    print(f'l1={l1}, l2={l2}')
+    inCommon = []
+    
+    for i in range(min(l1, l2)):
+        n1 = ll1.traverseTo(i)
+        
+        if ll2.contains(n1):
+            inCommon.append(n1)
+
+    return f'Nodes in Common: {inCommon}'
