@@ -25,6 +25,8 @@ class LinkedList:
         nodes = []
         while node is not None:
             nodes.append(node.data)
+            if len(nodes) > self.getLength():
+                return f'Circular at Node({nodes[-1]})'
             node = node.next
         
         # signify end of ll
@@ -105,18 +107,30 @@ class LinkedList:
         
         return True
 
-    def deleteNode(self, node):
-        '''Deletes node from list'''
-        
-        # check if node is in list
-        if not self.contains(node):
-            return 'Node not in list'
+    def deleteNode(self, targetNode, how='any'):
+        """Deletes node from linked list
+        how (str): 'any' deletes all instances, 'first' deletes first instance
+        """
+        # declare starting node
+        node = self.head
+        # check if targetNode is head of llist
+        if node.data == targetNode.data: 
+            # change head to head.next
+            self.head = node.next
+            # return list if only intending to delete first instance of targetNode
+            if how == 'first':
+                return self
 
-        n = self.head 
-        while n.next.data != node.data:
-            n = n.next
-
-        n.next = n.next.next
+        # continue to traverse llist until node.next is None
+        while node.next is not None:
+            if node.next.data == targetNode.data:
+                # bring forward next.next to skip over targetNode 
+                node.next = node.next.next
+                if how == 'first': 
+                    return self
+            else:
+                # loop
+                node = node.next
 
         return self
 
@@ -124,12 +138,11 @@ class LinkedList:
         n = self.head
         while n.next is not None:     
             a = n.next
-            self.deleteNode(a)
+            self.deleteNode(a, how='first')
             self.insertFirst(a)
 
         return self
 
-    
     def sort(self, method='ascending'):
         """Returns sorted list according to method
         method (str): 'ascending' or 'descending' 
@@ -155,7 +168,6 @@ class LinkedList:
         """Determine if list repeats itself"""
 
         pass
-
 
 def compare(ll1, ll2) -> str:
     """Compare 2 linked lists and find similarities"""
