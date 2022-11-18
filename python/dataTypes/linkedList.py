@@ -1,14 +1,14 @@
 #! /usr/bin/python3 
 # Linked List Data Structure Module
+import random
 
 class Node:
-    def __init__(self, data: str):
+    def __init__(self, data: str = None):
         """Todo: enforce str types for node data"""
-        try:
+        if data and type(data) != str:
+            self.data = str(data)
+        else:
             self.data = data
-        except TypeError as err:
-            print(err)
-        
         self.next = None
 
     def __repr__(self) -> str:
@@ -182,3 +182,15 @@ def compare(ll1, ll2) -> str:
             inCommon.append(n1)
 
     return f'Nodes in Common: {inCommon}'
+
+def generateLL(size: int):
+    llist = LinkedList()
+    randNum = random.randint(0,100)
+    llist.head = Node(str(randNum))
+    i = 1
+    while i < size:
+        randNum = random.randint(0,100)
+        llist.insertLast(Node(str(randNum)))
+        i += 1
+
+    return llist
