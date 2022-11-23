@@ -1,5 +1,5 @@
 #! /usr/bin/python 3
-# yyyy_mm_dd.py - daily coding problem
+# dd_mmmyy.py - daily coding problem
 
 import random
 import enchant
