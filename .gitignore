@@ -2,3 +2,4 @@ notes.txt
 dataTypes/__pycache__/
 *.pyc
 settings.json
+/c/testing/*
