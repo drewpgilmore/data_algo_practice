@@ -7,17 +7,22 @@ typedef struct node {
     struct node *next; // pointer to next node
 } node; 
 
+node makeList(int length);
+
 // Implement Linked List
 int main(void) {
-    node *llist = NULL; // initiate pointing to NULL
+    // node *llist = NULL; // initiate pointing to NULL
     // prepend 10 random ints
-    int length = 10;
-    for (int i = 0; i < length; i++) {
-        node *n = malloc(sizeof(node));
-        n->data = rand() % 50; // get random int between 0 and 50
-        n->next = llist; // make node point to llist (head)
-        llist = n;
-    }
+    // int length = 10;
+    // for (int i = 0; i < length; i++) {
+    //     node *n = malloc(sizeof(node));
+    //     n->data = rand() % 50; // get random int between 0 and 50
+    //     n->next = llist; // make node point to llist (head)
+    //     llist = n;
+    // }
+
+    node *llist = makeList(10);
+
     // iterate through list
     node *ptr = llist; // copy ll pointer for iteration
     while (ptr != NULL) {
@@ -27,15 +32,15 @@ int main(void) {
     printf("End\n");
 }
 
-// linkedList make(int length) {
-//     // make list
-//     node *llist = NULL;
-//     // loop length times, prepend random int to list
-//     for (int i = 0; i < length; i++) {
-//         node *n = malloc(sizeof(node));
-//         n->data = rand() % 50; // get random int between 0 and 50
-//         n->next = llist; // make node point to llist (head)
-//         llist = n;
-//     }
-//     return llist;
-// }
+node makeList(int length) {
+    // make list
+    node *llist = NULL;
+    // loop length times, prepend random int to list
+    for (int i = 0; i < length; i++) {
+        node *n = malloc(sizeof(node));
+        n->data = rand() % 50; // get random int between 0 and 50
+        n->next = llist; // make node point to llist (head)
+        llist = n;
+    }
+    return *llist;
+}
