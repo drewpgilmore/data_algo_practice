@@ -4,42 +4,32 @@
 // define node struct
 typedef struct node {
     int data; 
-    struct node *next; // pointer to next node
+    struct node *next;
 } node; 
 
 node makeList(int length);
 
-// Implement Linked List
 int main(void) {
-    // node *llist = NULL; // initiate pointing to NULL
-    // prepend 10 random ints
-    // int length = 10;
-    // for (int i = 0; i < length; i++) {
-    //     node *n = malloc(sizeof(node));
-    //     n->data = rand() % 50; // get random int between 0 and 50
-    //     n->next = llist; // make node point to llist (head)
-    //     llist = n;
-    // }
-
-    node *llist = makeList(10);
-
-    // iterate through list
-    node *ptr = llist; // copy ll pointer for iteration
+    // implement linked list of given length
+    node llist = makeList(10);
+    
+    // iterate through list to print out contents
+    node *ptr = &llist;
     while (ptr != NULL) {
         printf("%i -> ", ptr->data);
-        ptr = ptr->next; // set pointer to next
+        ptr = ptr->next;
     }
     printf("End\n");
 }
 
 node makeList(int length) {
-    // make list
+    // initiate pointer to NULL (tail of list)
     node *llist = NULL;
     // loop length times, prepend random int to list
     for (int i = 0; i < length; i++) {
         node *n = malloc(sizeof(node));
-        n->data = rand() % 50; // get random int between 0 and 50
-        n->next = llist; // make node point to llist (head)
+        n->data = rand() % 50;
+        n->next = llist;
         llist = n;
     }
     return *llist;
