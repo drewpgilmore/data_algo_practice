@@ -3,3 +3,5 @@ dataTypes/__pycache__/
 *.pyc
 settings.json
 /c/testing/*
+
+python/adventOfCode/inputs
