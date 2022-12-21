@@ -52,7 +52,8 @@ node *traverseTo(node *llist, int index) {
     return llist;
 }
 
-/* Appends or prepends node based on method input */
+/* Append or prepend node       */
+/* Method "prepend" or "append" */
 node *addNode(node *llist, int i, char *method) {
     node *n = malloc(sizeof(node));
     n->data = i;
@@ -71,9 +72,33 @@ node *addNode(node *llist, int i, char *method) {
         return llist;
     }
 }
+
+/* Delete node from list */
+node *deleteNode(node *llist, node *target) {
+    if (llist == target) { 
+        llist = llist->next; 
+        return llist;
+    }
     
+    node *iterator = llist;
+    while (iterator->next != target) {
+        iterator = iterator->next;
+    }
+    iterator->next = iterator->next->next;
+    return llist;
+}
+
+/* Reverse list */
+// node *reverse(node *llist) {
+//     for (int i = 0; i < length(llist); i++) {
+//         node *tmp = malloc(sizeof(node));
+
+//         llist = traverseTo(llist, length(llist) - 1);
+//         //free(tmp);
+//     }
 //     return llist;
 // }
+
 
 // node *insertBefore(node *llist, node n, node before) {
 //     // inserts node "n" before node "before"
