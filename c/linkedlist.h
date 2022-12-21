@@ -2,6 +2,7 @@
 /* Defines linked list data structure */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /* Node struct */
 typedef struct node {
@@ -51,8 +52,26 @@ node *traverseTo(node *llist, int index) {
     return llist;
 }
 
-// node *append(node *llist, node n) {
-//     // appends node "n" to list
+/* Appends or prepends node based on method input */
+node *addNode(node *llist, int i, char *method) {
+    node *n = malloc(sizeof(node));
+    n->data = i;
+    if (strcmp(method, "prepend") == 0) {
+        node *tmp = llist;
+        llist = n;
+        n->next = tmp;
+        return llist;
+    } 
+    else if (strcmp(method, "append") == 0) {
+        node *last = traverseTo(llist, length(llist) - 1);
+        last->next = n;
+        return llist;
+    } else {
+        printf("Invalid method entered\nEnter 'prepend' or 'append'\n");
+        return llist;
+    }
+}
+    
 //     return llist;
 // }
 
