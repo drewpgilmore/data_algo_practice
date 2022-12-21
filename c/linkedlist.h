@@ -44,40 +44,38 @@ int length(node *llist) {
 
 /* Get pointer to node at given index */
 node *traverseTo(node *llist, int index) {
+    node *iterator = llist;
     int i = 0;
     while (i < index) {
-        llist = llist->next;
+        iterator = iterator->next;
         i++;
     }
-    return llist;
+    return iterator;
 }
 
 /* Append or prepend node       */
 /* Method "prepend" or "append" */
-node *addNode(node *llist, int i, char *method) {
-    node *n = malloc(sizeof(node));
-    n->data = i;
+void addNode(node *llist, node *n, char *method) {
+    //node *n = malloc(sizeof(node));
+    //n->data = i;
     if (strcmp(method, "prepend") == 0) {
         node *tmp = llist;
         llist = n;
         n->next = tmp;
-        return llist;
     } 
     else if (strcmp(method, "append") == 0) {
         node *last = traverseTo(llist, length(llist) - 1);
         last->next = n;
-        return llist;
     } else {
         printf("Invalid method entered\nEnter 'prepend' or 'append'\n");
-        return llist;
     }
 }
 
 /* Delete node from list */
-node *deleteNode(node *llist, node *target) {
+void deleteNode(node *llist, node *target) {
     if (llist == target) { 
         llist = llist->next; 
-        return llist;
+        //return llist;
     }
     
     node *iterator = llist;
@@ -85,42 +83,15 @@ node *deleteNode(node *llist, node *target) {
         iterator = iterator->next;
     }
     iterator->next = iterator->next->next;
-    return llist;
+    //return llist;
 }
 
 /* Reverse list */
-// node *reverse(node *llist) {
-//     for (int i = 0; i < length(llist); i++) {
-//         node *tmp = malloc(sizeof(node));
-
-//         llist = traverseTo(llist, length(llist) - 1);
-//         //free(tmp);
-//     }
-//     return llist;
-// }
+void reverse(node *llist) {
+    
+}
 
 
-// node *insertBefore(node *llist, node n, node before) {
-//     // inserts node "n" before node "before"
-//     return llist;
-// }
-
-// bool contains(node *llist, node n) {
-//     // returns bool if node "n" is in list
-//     return 0;
-// }
-
-// node *deleteNode(node *llist, node n, char *method) {
-//     // deletes node "n" from llist according to "method"
-//     // method = "any" deletes all instances of node "n"
-//     // method = "first" deletes first instance of node "n"
-//     return llist;
-// }
-
-// node *reverse(node *llist) {
-//     // reverses llist without creating new list
-//     return llist;
-// }
 
 // node *sort(node *llist, char *method) {
 //     // sorts list according to "method"
