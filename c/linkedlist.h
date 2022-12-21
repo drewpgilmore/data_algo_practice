@@ -21,28 +21,35 @@ typedef struct node {
 
 /* Print list */
 void print(node *llist) {
-    node *iterator = llist;
-    while (iterator != NULL) {
-        printf("%i -> ", iterator->data);
-        iterator = iterator->next;
+    while (llist != NULL) {
+        printf("%i -> ", llist->data);
+        llist = llist->next;
     }
     printf("End\n");
 }
 
+/* Get length of list */
 int length(node *llist) {
+    if (llist == NULL) {
+        return 0;
+    }
     int length = 0;
-    node *iterator = llist;
-    while (iterator != NULL) {
-        length ++;
-        iterator = iterator->next;
+    while (llist != NULL) {
+        length++;
+        llist = llist->next;
     }
     return length;
 }
 
-// node *traverseTo(node *llist, int index) {
-//     // returns pointer to node at index
-//     return node;
-// }
+/* Get pointer to node at given index */
+node *traverseTo(node *llist, int index) {
+    int i = 0;
+    while (i < index) {
+        llist = llist->next;
+        i++;
+    }
+    return llist;
+}
 
 // node *append(node *llist, node n) {
 //     // appends node "n" to list
