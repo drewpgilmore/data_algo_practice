@@ -29,16 +29,15 @@ void print(node *llist) {
     printf("End\n");
 }
 
-// int length(node *llist) {
-//     // returns length of list
-//     // node *ptr = &llist;
-//     // while (ptr != NULL) {
-//     //     printf("%i -> ", ptr->data);
-//     //     ptr = ptr->next;
-//     // }
-//     // printf("End\n");
-//     return 1;
-// }
+int length(node *llist) {
+    int length = 0;
+    node *iterator = llist;
+    while (iterator != NULL) {
+        length ++;
+        iterator = iterator->next;
+    }
+    return length;
+}
 
 // node *traverseTo(node *llist, int index) {
 //     // returns pointer to node at index
