@@ -10,17 +10,9 @@ typedef struct node {
     struct node *next;
 } node; 
 
-/* Linked list core funcstions */
-/* 
-    print
-    insert nodes
-    delete nodes
-    reverse
-    sort
-    traverse
-*/
-
-/* Print list */
+/* ************** */
+/* Core functions */
+/* Print list     */
 void print(node *llist) {
     while (llist != NULL) {
         printf("%i -> ", llist->data);
@@ -29,7 +21,7 @@ void print(node *llist) {
     printf("End\n");
 }
 
-/* Get length of list */
+/* Return length of list */
 int length(node *llist) {
     if (llist == NULL) {
         return 0;
@@ -42,7 +34,7 @@ int length(node *llist) {
     return length;
 }
 
-/* Get pointer to node at given index */
+/* Return pointer to node at given index */
 node *traverseTo(node *llist, int index) {
     node *iterator = llist;
     int i = 0;
@@ -53,49 +45,52 @@ node *traverseTo(node *llist, int index) {
     return iterator;
 }
 
-/* Append or prepend node       */
-/* Method "prepend" or "append" */
-void addNode(node *llist, node *n, char *method) {
-    //node *n = malloc(sizeof(node));
-    //n->data = i;
-    if (strcmp(method, "prepend") == 0) {
-        node *tmp = llist;
-        llist = n;
-        n->next = tmp;
-    } 
-    else if (strcmp(method, "append") == 0) {
-        node *last = traverseTo(llist, length(llist) - 1);
-        last->next = n;
-    } else {
-        printf("Invalid method entered\nEnter 'prepend' or 'append'\n");
-    }
+/* Return pointer of last node in list */
+node *lastNode(node *llist) {
+    int index = length(llist) - 1;
+    node *last = traverseTo(llist, index);
+    return last;
+}
+
+/* Prepend node to list */
+node *prepend(node *llist, node *n) {
+    n->next = llist;
+    llist = n; 
+    return llist;
+}
+
+/* Append node to list */
+void append(node *llist, node *n) {
+    node *last = traverseTo(llist, length(llist) - 1); 
+    last->next = n;
 }
 
 /* Delete node from list */
-void deleteNode(node *llist, node *target) {
+void delete(node *llist, node *target) {
     if (llist == target) { 
         llist = llist->next; 
-        //return llist;
     }
-    
     node *iterator = llist;
     while (iterator->next != target) {
         iterator = iterator->next;
     }
     iterator->next = iterator->next->next;
-    //return llist;
 }
 
 /* Reverse list */
-void reverse(node *llist) {
-    
-}
-
-
-
-// node *sort(node *llist, char *method) {
-//     // sorts list according to "method"
-//     // method = "ascending" or "descending"
+// node *reverse(node *llist) {
+//     node *iterator = llist;
+//     while (iterator != NULL) {
+//         print(llist);
+//         node *last = lastNode(llist);
+//         delete(llist, last);
+//         print(llist);
+//         node *tmp = llist;
+//         llist = last;
+//         last->next = tmp;
+//         print(llist);
+//         iterator = iterator->next;
+//     }
 //     return llist;
 // }
 

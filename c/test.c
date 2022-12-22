@@ -4,30 +4,49 @@
 #include "linkedlist.h"
 
 int main(void) {
-    node *llist = makeList(10);
+    int sample = 5;
+    node *llist = makeList(sample);
     
-    /* Test print */
+    /* Print */
+    printf("Make list of length %i : ", sample);
     print(llist);
 
-    /* Test length */
+    /* Length */
     int l = length(llist);
-    printf("Length is %i\n", l);
+    printf("Length of list = %i\n", l);
+
+    /* Prepend & append */
+    node *a = malloc(sizeof(node));
+    a->data = 3;
+    llist = prepend(llist, a);
+    
+    node *b = malloc(sizeof(node));
+    b->data = 30;
+    append(llist, b);
+
+    printf("Prepending %i : ", a->data);
+    print(llist);
+    printf("Appending %i : ", b->data);
+    print(llist);   
 
     /* Test traverse to */
-    int index = 3;
-    node *targetNode = traverseTo(llist, index);
-    printf("Node at index %i is %i\n", index, targetNode->data);
+    node *targetNode = traverseTo(llist, 3);
+    printf("Node at index 3 is %i\n", targetNode->data);
 
-    /* Test add node */
-    llist = addNode(llist, 3, "append");
-    llist = addNode(llist, 12, "prepend");
-    llist = addNode(llist, 14, "faulty input");
-    print(llist);
+    node *tail = lastNode(llist);
+    printf("Tail node is %i\n", tail->data);
 
     /* Test delete node */
-    node *n = traverseTo(llist, 4); 
-    printf("Deleting node %i\n", n->data);
-    llist = deleteNode(llist, n); 
+    int i = 4;
+    node *n = traverseTo(llist, i); 
+    delete(llist, n); 
+    printf("Deleting node at index %i (%i) : ", i, n->data);
     print(llist);
 
+    /* Test reverse */
+    llist = reverse(llist); 
+    printf("Reversing list : ");
+    print(llist);
+
+    
 }
