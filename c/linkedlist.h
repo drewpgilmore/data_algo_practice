@@ -78,21 +78,19 @@ void delete(node *llist, node *target) {
 }
 
 /* Reverse list */
-// node *reverse(node *llist) {
-//     node *iterator = llist;
-//     while (iterator != NULL) {
-//         print(llist);
-//         node *last = lastNode(llist);
-//         delete(llist, last);
-//         print(llist);
-//         node *tmp = llist;
-//         llist = last;
-//         last->next = tmp;
-//         print(llist);
-//         iterator = iterator->next;
-//     }
-//     return llist;
-// }
+node *reverse(node **head) {
+    node *prev = NULL; 
+    node *curr = *head;
+    node *next = NULL; 
+    while (curr != NULL) {
+        next = curr->next;  
+        curr->next = prev; 
+        prev = curr;
+        curr = next; 
+    }
+    *head = prev;
+    return *head;
+}
 
 /* ************************************************ */
 /* Testing Functions                                */
