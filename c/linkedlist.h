@@ -119,3 +119,14 @@ node *makeList(int length) {
     }
     return llist;
 }
+
+/* Generate list from array */
+node *fromArray(int a[], int len) {
+    node *head = malloc(sizeof(node));
+    head->data = a[0];
+    node *llist = head;
+    for (int i = 1; i < len; i++) {
+        append(&llist, a[i]);
+    }
+    return llist;
+}
