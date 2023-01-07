@@ -13,30 +13,32 @@ typedef struct node {
 /* ************** */
 /* Core functions */
 /* Print list     */
-void print(node *llist) {
-    while (llist != NULL) {
-        printf("%i -> ", llist->data);
-        llist = llist->next;
+void print(node **llist) {
+    node *current = *llist;
+    while (current != NULL) {
+        printf("%i -> ", current->data);
+        current = current->next;
     }
     printf("End\n");
 }
 
 /* Return length of list */
-int length(node *llist) {
-    if (llist == NULL) {
-        return 0;
-    }
+int length(node **llist) {
     int length = 0;
-    while (llist != NULL) {
+    node *current = *llist;
+    while (current != NULL) {
         length++;
-        llist = llist->next;
+        current = current->next;
     }
     return length;
 }
 
 /* Return pointer to node at given index */
-node *traverseTo(node *llist, int index) {
-    node *iterator = llist;
+node *traverseTo(node **llist, int index) {
+    if (index > length(llist)) {
+        printf("Index out of range!");
+    }
+    node *iterator = *llist;
     int i = 0;
     while (i < index) {
         iterator = iterator->next;
@@ -46,39 +48,52 @@ node *traverseTo(node *llist, int index) {
 }
 
 /* Return pointer of last node in list */
-node *lastNode(node *llist) {
+node *tail(node **llist) {
     int index = length(llist) - 1;
     node *last = traverseTo(llist, index);
     return last;
 }
 
 /* Prepend node to list */
-node *prepend(node *llist, node *n) {
-    n->next = llist;
-    llist = n; 
+void *prepend(node **llist, int i) {
+    node *n = malloc(sizeof(node)); 
+    n->data = i; 
+    n->next = *llist;
+    *llist = n;
     return llist;
 }
 
 /* Append node to list */
-void append(node *llist, node *n) {
-    node *last = traverseTo(llist, length(llist) - 1); 
-    last->next = n;
+void *append(node **llist, int i) {
+    node *n = malloc(sizeof(node)); 
+    n->data = i; 
+    n->next = NULL;
+    node *t = tail(llist);
+    t->next = n;
+    return llist;
 }
 
-/* Delete node from list */
-void delete(node *llist, node *target) {
-    if (llist == target) { 
-        llist = llist->next; 
+/* Inserts node with data i after given node */
+void *insert(node **llist, node *after, int i) {
+    node *new = malloc(sizeof(node)); 
+    new->data = i;
+    node *tmp = malloc(sizeof(node)); 
+    tmp = after->next;
+    new->next = tmp; 
+    after->next = new;
+    return llist;
+}
+/* Delet node */
+void delete(node **llist, node *n) {
+    node *iterator = *llist; 
+    while (iterator->next != n) {
+        iterator = iterator->next; 
     }
-    node *iterator = llist;
-    while (iterator->next != target) {
-        iterator = iterator->next;
-    }
-    iterator->next = iterator->next->next;
+    iterator->next = iterator->next->next; 
 }
 
 /* Reverse list */
-node *reverse(node **head) {
+void reverse(node **head) {
     node *prev = NULL; 
     node *curr = *head;
     node *next = NULL; 
@@ -89,7 +104,6 @@ node *reverse(node **head) {
         curr = next; 
     }
     *head = prev;
-    return *head;
 }
 
 /* ************************************************ */
