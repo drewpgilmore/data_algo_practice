@@ -55,33 +55,30 @@ node *tail(node **llist) {
 }
 
 /* Prepend node to list */
-void *prepend(node **llist, int i) {
+void prepend(node **llist, int i) {
     node *n = malloc(sizeof(node)); 
     n->data = i; 
     n->next = *llist;
     *llist = n;
-    return llist;
 }
 
 /* Append node to list */
-void *append(node **llist, int i) {
+void append(node **llist, int i) {
     node *n = malloc(sizeof(node)); 
     n->data = i; 
     n->next = NULL;
     node *t = tail(llist);
     t->next = n;
-    return llist;
 }
 
 /* Inserts node with data i after given node */
-void *insert(node **llist, node *after, int i) {
+void insert(node **llist, node *after, int i) {
     node *new = malloc(sizeof(node)); 
     new->data = i;
     node *tmp = malloc(sizeof(node)); 
     tmp = after->next;
     new->next = tmp; 
     after->next = new;
-    return llist;
 }
 /* Delet node */
 void delete(node **llist, node *n) {
