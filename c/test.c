@@ -9,44 +9,43 @@ int main(void) {
     
     /* Print */
     printf("Make list of length %i : ", sample);
-    print(llist);
+    print(&llist);
 
     /* Length */
-    int l = length(llist);
-    printf("Length of list = %i\n", l);
+    printf("Length of list = %i\n", length(&llist));
 
-    /* Prepend & append */
-    node *a = malloc(sizeof(node));
-    a->data = 3;
-    llist = prepend(llist, a);
+    /* Traverse to */
+    printf("Traversing to node at index 3...");
+    node *n = traverseTo(&llist, 3);
+    printf("%i\n", n->data);
+
+    /* Tail */
+    node *t = tail(&llist);
+    printf("Tail = %i\n", t->data);
+    printf("Tail->next should be null ... %p\n", t->next);
+
+
+    /* Prepend, append, insert, delete */
+    prepend(&llist, 12); 
+    printf("Prepending 12...");
+    print(&llist);
     
-    node *b = malloc(sizeof(node));
-    b->data = 30;
-    append(llist, b);
-
-    printf("Prepending %i : ", a->data);
-    print(llist);
-    printf("Appending %i : ", b->data);
-    print(llist);   
-
-    /* Test traverse to */
-    node *targetNode = traverseTo(llist, 3);
-    printf("Node at index 3 is %i\n", targetNode->data);
-
-    node *tail = lastNode(llist);
-    printf("Tail node is %i\n", tail->data);
-
-    /* Test delete node */
-    int i = 4;
-    node *n = traverseTo(llist, i); 
-    delete(llist, n); 
-    printf("Deleting node at index %i (%i) : ", i, n->data);
-    print(llist);
-
-    /* Test reverse */
-    llist = reverse(llist); 
-    printf("Reversing list : ");
-    print(llist);
-
+    append(&llist, 33);
+    printf("Appending 33...");
+    print(&llist);
     
+    node *insertNodeAfterMe = traverseTo(&llist, 4);
+    insert(&llist, insertNodeAfterMe, 100); 
+    printf("Inserting 100 at index 5...");
+    print(&llist); 
+
+
+    /* Reverse */
+    printf("Reversing...");
+    print(&llist);
+    
+    /* Sort */
+    printf("Sorting...");
+    sorted(&llist);
+    print(&llist);
 }
