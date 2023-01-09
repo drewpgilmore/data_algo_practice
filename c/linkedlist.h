@@ -92,6 +92,25 @@ void delete(node **llist, node *n) {
     iterator->next = iterator->next->next; 
 }
 
+/* bubble sort ascending */
+void sorted(node **llist) {
+    node *i = *llist; 
+    int temp;
+    while (i->next != NULL) {
+        node *curr, *next; 
+        curr = i;
+        next = i->next; 
+        if (curr->data > next->data) {
+            temp = curr->data;
+            curr->data = next->data;
+            next->data = temp;
+            i = *llist;
+        } else {
+            i = i->next;
+        }
+    }
+}
+
 /* Reverse list */
 void reverse(node **head) {
     node *prev = NULL; 
