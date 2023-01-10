@@ -2,8 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "linkedlist.h"
+#include "hashtable.h"
 
 int main(void) {
+    printf("-------------------\n");
+    printf("TESTING LINKED LIST\n");
     int sample = 5;
     node *llist = makeList(sample);
     
@@ -48,4 +51,25 @@ int main(void) {
     printf("Sorting...");
     sorted(&llist);
     print(&llist);
+
+    /* **************** */
+    /* Hash table       */
+    /* init empty table */
+    printf("------------------\n");
+    printf("TESTING HASH TABLE\n");
+    clearTable();
+    
+    person drew = {.name="Drew", .age=29};
+    person lauren = {.name="Lauren", .age=29};
+    person georgia = {.name="Georgia", .age=4};
+    person clark = {.name="Clark", .age=2};
+    person charlotte = {.name="Charlotte", .age=0};
+    
+    insertPerson(&drew);
+    insertPerson(&charlotte);
+    insertPerson(&clark);
+    insertPerson(&lauren);
+    insertPerson(&georgia);
+
+    printTable();
 }
