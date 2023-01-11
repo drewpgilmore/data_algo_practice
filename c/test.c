@@ -5,71 +5,45 @@
 #include "hashtable.h"
 
 int main(void) {
-    printf("-------------------\n");
-    printf("TESTING LINKED LIST\n");
-    int sample = 5;
-    node *llist = makeList(sample);
-    
-    /* Print */
-    printf("Make list of length %i : ", sample);
+    printf("LINKED LIST IMPLENTATION FROM linkedlist.h\n");
+    printf("------------------------------------------\n");
+    printf("enter length of sample list to generate: ");
+    int sampleLength, data, index;
+    scanf("%i", &sampleLength);
+    node *llist = makeList(sampleLength);
+    printf("\n llist = ");
     print(&llist);
-
-    /* Length */
-    printf("Length of list = %i\n", length(&llist));
-
-    /* Traverse to */
-    printf("Traversing to node at index 3...");
-    node *n = traverseTo(&llist, 3);
-    printf("%i\n", n->data);
-
-    /* Tail */
-    node *t = tail(&llist);
-    printf("Tail = %i\n", t->data);
-    printf("Tail->next should be null ... %p\n", t->next);
-
-
-    /* Prepend, append, insert, delete */
-    prepend(&llist, 12); 
-    printf("Prepending 12...");
-    print(&llist);
-    
-    append(&llist, 33);
-    printf("Appending 33...");
-    print(&llist);
-    
-    node *insertNodeAfterMe = traverseTo(&llist, 4);
-    insert(&llist, insertNodeAfterMe, 100); 
-    printf("Inserting 100 at index 5...");
-    print(&llist); 
-
-
-    /* Reverse */
-    printf("Reversing...");
-    print(&llist);
-    
-    /* Sort */
-    printf("Sorting...");
-    sorted(&llist);
-    print(&llist);
-
-    /* **************** */
-    /* Hash table       */
-    /* init empty table */
-    printf("------------------\n");
-    printf("TESTING HASH TABLE\n");
-    clearTable();
-    
-    person drew = {.name="Drew", .age=29};
-    person lauren = {.name="Lauren", .age=29};
-    person georgia = {.name="Georgia", .age=4};
-    person clark = {.name="Clark", .age=2};
-    person charlotte = {.name="Charlotte", .age=0};
-    
-    insertPerson(&drew);
-    insertPerson(&charlotte);
-    insertPerson(&clark);
-    insertPerson(&lauren);
-    insertPerson(&georgia);
-
-    printTable();
+    printf("\n");
+    printf("actions:\n0. quit\n1. prepend node\n2. append node\n3. reverse\n");
+    printf("\nenter action: ");
+    int option;
+    scanf("%i", &option); 
+    while (option != 0) {
+        if (option > 3) {
+            printf("please enter valid option 0 - 3: ");
+            scanf("%d", &option);
+        } else {
+            if (option == 1) {
+                printf("enter value to prepend: ");
+                scanf("%i", &data);
+                prepend(&llist, data);
+                printf("prepending %i to llist...\n", data);
+            } else if (option == 2) {
+                printf("enter value to append: ");
+                scanf("%i", &data);
+                append(&llist, data);
+                printf("appending %i to llist...\n", data);
+            } else if (option == 3) {
+                reverse(&llist);
+                printf("reversing llist...\n");
+            }
+        }
+        printf("\n llist = ");
+        print(&llist);
+        printf("\n");
+        printf("enter action: ");
+        scanf("%i", &option);
+    }
+    printf("test complete!\n");
+    return 0;
 }
