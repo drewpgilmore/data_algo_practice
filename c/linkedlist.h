@@ -16,7 +16,7 @@ typedef struct node {
 void print(node **llist) {
     node *current = *llist;
     while (current != NULL) {
-        printf("%i -> ", current->data);
+        printf("%i->", current->data);
         current = current->next;
     }
     printf("End\n");
@@ -129,7 +129,7 @@ node *makeList(int length) {
     node *llist = NULL;
     for (int i = 0; i < length; i++) {
         node *n = malloc(sizeof(node));
-        n->data = rand() % 50; /* random int between 1 and 50 */
+        n->data = rand() % 100; /* random int between 1 and 50 */
         n->next = llist;
         llist = n;
     }
