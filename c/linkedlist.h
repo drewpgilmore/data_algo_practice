@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 /* Node struct */
 typedef struct node {
@@ -145,4 +146,18 @@ node *fromArray(int a[], int len) {
         append(&llist, a[i]);
     }
     return llist;
+}
+
+/* get integer from user input for test.c */
+char selectAction() {
+    char action;
+    char *actions = 
+        "options:\n"
+          "'a' = append\n"  
+          "'p' = prepend\n"
+          "'r' = reverse\n" 
+          "'q' = quit\n";
+    printf("%s\nchoose action to perform: ", actions);
+    scanf("%c", &action); 
+    return action;
 }
