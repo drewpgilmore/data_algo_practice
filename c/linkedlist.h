@@ -7,6 +7,8 @@
 
 /* Node struct */
 typedef struct node {
+    char *name; 
+    int age;
     int data; 
     struct node *next;
 } node; 
@@ -15,29 +17,35 @@ typedef struct node {
 /* Core functions */
 /* Print list     */
 void print(node **llist) {
-    node *current = *llist;
-    while (current != NULL) {
-        printf("%i->", current->data);
-        current = current->next;
+    node *iterator = *llist;
+    while (iterator != NULL) {
+        //printf("%i->", current->data);
+        printf("%s (%i)->", iterator->name, iterator->age);
+        iterator = iterator->next;
     }
     printf("End\n");
 }
 
-/* Return length of list */
+/* length of list */
+/* add 1 to counter with each node, return counter int */
 int length(node **llist) {
     int length = 0;
-    node *current = *llist;
-    while (current != NULL) {
+    node *iterator = *llist;
+    while (iterator != NULL) {
         length++;
-        current = current->next;
+        iterator = iterator->next;
     }
     return length;
 }
 
-/* Return pointer to node at given index */
-node *traverseTo(node **llist, int index) {
+/* traverse to index */
+/* return pointer to node at given (non negative) index */
+node *traverseTo(node **llist, unsigned int index) {
     if (index > length(llist)) {
         printf("Index out of range!");
+        return 0;
+    } else if (index == 0) {
+        return *llist;
     }
     node *iterator = *llist;
     int i = 0;
@@ -48,50 +56,56 @@ node *traverseTo(node **llist, int index) {
     return iterator;
 }
 
-/* Return pointer of last node in list */
+/* tail of llist */
+/* return pointer to node that has .next == NULL */
 node *tail(node **llist) {
-    int index = length(llist) - 1;
-    node *last = traverseTo(llist, index);
-    return last;
+    node *iterator = *llist; 
+    while (iterator->next != NULL) {
+        iterator = iterator->next;
+    }
+    return iterator; 
 }
 
 /* Prepend node to list */
-void prepend(node **llist, int i) {
-    node *n = malloc(sizeof(node)); 
-    n->data = i; 
+/* make .next of node "n" = head of llist, make llist point to node "n" */
+void prepend(node **llist, node *n) {
     n->next = *llist;
     *llist = n;
 }
 
 /* Append node to list */
-void append(node **llist, int i) {
-    node *n = malloc(sizeof(node)); 
-    n->data = i; 
-    n->next = NULL;
-    node *t = tail(llist);
-    t->next = n;
+/* traverse to node where .next == NULL, assign node "n" to .next */
+void append(node **llist, node *n) {
+    node *iterator = *llist; 
+    while (iterator->next != NULL) {
+        iterator = iterator->next;
+    }
+    iterator->next = n; 
 }
 
-/* Inserts node with data i after given node */
-void insert(node **llist, node *after, int i) {
-    node *new = malloc(sizeof(node)); 
-    new->data = i;
-    node *tmp = malloc(sizeof(node)); 
-    tmp = after->next;
-    new->next = tmp; 
-    after->next = new;
+/* insert node */
+/* inserts node "n" after given node "after" */
+void insert(node **llist, node *n, node *after) {
+    node *tmp = after->next;
+    n->next = tmp; 
+    after->next = n;
 }
-/* Delet node */
+/* delete node */
+/* removes target node "n" from llist */
 void delete(node **llist, node *n) {
+    if (n == *llist) {
+        *llist = n->next; // move head to n->next if n is head
+        return; 
+    }
     node *iterator = *llist; 
     while (iterator->next != n) {
         iterator = iterator->next; 
     }
-    iterator->next = iterator->next->next; 
+    iterator->next = iterator->next->next;
 }
 
 /* bubble sort ascending */
-void sorted(node **llist) {
+void sort(node **llist) {
     node *i = *llist; 
     int temp;
     while (i->next != NULL) {
@@ -138,26 +152,26 @@ node *makeList(int length) {
 }
 
 /* Generate list from array */
-node *fromArray(int a[], int len) {
-    node *head = malloc(sizeof(node));
-    head->data = a[0];
-    node *llist = head;
-    for (int i = 1; i < len; i++) {
-        append(&llist, a[i]);
+node *fromArray(node *arr, int len) {
+    node *llist = NULL;
+    for (int i = 0; i < len - 1; i++) {
+        arr[i].next = &arr[i + 1]; 
     }
+    llist = arr;
     return llist;
 }
 
 /* get integer from user input for test.c */
-char selectAction() {
-    char action;
-    char *actions = 
-        "options:\n"
-          "'a' = append\n"  
-          "'p' = prepend\n"
-          "'r' = reverse\n" 
-          "'q' = quit\n";
-    printf("%s\nchoose action to perform: ", actions);
-    scanf("%c", &action); 
-    return action;
-}
+// int selectAction() {
+//     int action;
+//     char *actions = 
+//         "options:\n"
+//           "1. append\n"  
+//           "2. prepend\n"
+//           "3. insert node\n"
+//           "3. reverse\n" 
+//           "9. quit\n";
+//     printf("%s\nchoose action to perform: ", actions);
+//     scanf("%c", &action); 
+//     return action;
+// }
