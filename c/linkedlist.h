@@ -7,23 +7,41 @@
 
 /* Node struct */
 typedef struct node {
-    char *name; 
-    int age;
-    int data; 
+    char *string; 
+    int num;
     struct node *next;
 } node; 
 
-/* ************** */
-/* Core functions */
-/* Print list     */
-void print(node **llist) {
+/* CORE FUNCTIONS */
+/* print */
+/* prints selected field of each node in the list */
+void print(node **llist, char *field) {
     node *iterator = *llist;
-    while (iterator != NULL) {
-        //printf("%i->", current->data);
-        printf("%s (%i)->", iterator->name, iterator->age);
-        iterator = iterator->next;
+    if (strcmp(field, "num") == 0) {
+        while (iterator != NULL) {
+            printf("%i->", iterator->num);
+            iterator = iterator->next;
+        }
+        printf("End\n");
+        return;
+    } else if (strcmp(field, "string") == 0) { 
+        while (iterator != NULL) {
+            printf("%s->", iterator->string);
+            iterator = iterator->next;
+        }
+        printf("End\n");
+        return;
+    } else if (strcmp(field, "all") == 0) { 
+        while (iterator != NULL) {
+            printf("(%s, %i)->", iterator->string, iterator->num);
+            iterator = iterator->next;
+        }
+        printf("End\n");
+        return;
+    } else {
+        printf("invalid field entered in print function\n");
+        return;
     }
-    printf("End\n");
 }
 
 /* length of list */
@@ -56,8 +74,8 @@ node *traverseTo(node **llist, unsigned int index) {
     return iterator;
 }
 
-/* tail of llist */
-/* return pointer to node that has .next == NULL */
+/* tail of list */
+/* return pointer to node that has node->next == NULL */
 node *tail(node **llist) {
     node *iterator = *llist; 
     while (iterator->next != NULL) {
@@ -66,15 +84,13 @@ node *tail(node **llist) {
     return iterator; 
 }
 
-/* Prepend node to list */
-/* make .next of node "n" = head of llist, make llist point to node "n" */
+/* prepend node "n" */
 void prepend(node **llist, node *n) {
     n->next = *llist;
     *llist = n;
 }
 
-/* Append node to list */
-/* traverse to node where .next == NULL, assign node "n" to .next */
+/* append node "n" */
 void append(node **llist, node *n) {
     node *iterator = *llist; 
     while (iterator->next != NULL) {
@@ -83,15 +99,15 @@ void append(node **llist, node *n) {
     iterator->next = n; 
 }
 
-/* insert node */
-/* inserts node "n" after given node "after" */
+/* insert node "n" after specified node "after" */
 void insert(node **llist, node *n, node *after) {
     node *tmp = after->next;
     n->next = tmp; 
     after->next = n;
 }
+
 /* delete node */
-/* removes target node "n" from llist */
+/* removes target node "n" from list */
 void delete(node **llist, node *n) {
     if (n == *llist) {
         *llist = n->next; // move head to n->next if n is head
@@ -105,28 +121,47 @@ void delete(node **llist, node *n) {
 }
 
 /* bubble sort ascending */
-void sort(node **llist) {
-    node *i = *llist; 
-    int temp;
-    while (i->next != NULL) {
-        node *curr, *next; 
-        curr = i;
-        next = i->next; 
-        if (curr->data > next->data) {
-            temp = curr->data;
-            curr->data = next->data;
-            next->data = temp;
-            i = *llist;
-        } else {
-            i = i->next;
-        }
-    }
-}
+// void sort(node **llist, char *field) {
+//     node *iterator = *llist; 
+//     node *temp = malloc(sizeof(node));
+    
+//     if (strcmp(field, "num") == 0) {
+//         while (iterator != NULL) {
+//             node *curr, *next; 
+//             curr = iterator;
+//             next = iterator->next; 
+//             if (curr->num > next->num) {
+//                 temp = curr->num;
+//                 curr->num = next->num;
+//                 next->num = temp;
+//                 iterator = *llist;
+//             } else {
+//                 iterator = iterator->next;
+//             }
+//         } return;
+//     } else if (strcmp(field, "string") == 0) {
+//         while (iterator != NULL) {
+//             node *curr, *next; 
+//             curr = iterator;
+//             next = iterator->next; 
+//             if (curr->string > next->string) {
+//                 temp = curr->num;
+//                 curr->string = next->string;
+//                 next->string = temp;
+//                 iterator = *llist;
+//             } else {
+//                 iterator = iterator->next;
+//             }
+//         } return;
+//     } else {
+//         printf("invalid field entered in sort function\n");
+//     }
+// }
 
-/* Reverse list */
-void reverse(node **head) {
+/* reverse list */
+void reverse(node **llist) {
     node *prev = NULL; 
-    node *curr = *head;
+    node *curr = *llist;
     node *next = NULL; 
     while (curr != NULL) {
         next = curr->next;  
@@ -134,24 +169,24 @@ void reverse(node **head) {
         prev = curr;
         curr = next; 
     }
-    *head = prev;
+    *llist = prev;
 }
 
-/* ************************************************ */
-/* Testing Functions                                */
-/* Generate linked list random ints of given length */
-node *makeList(int length) {
+/* TESTING FUNCTIONS */ 
+/* generate list of random ints */
+node *randomInts(int length) {
     node *llist = NULL;
     for (int i = 0; i < length; i++) {
         node *n = malloc(sizeof(node));
-        n->data = rand() % 100; /* random int between 1 and 50 */
+        n->string = "";
+        n->num = rand() % 100; 
         n->next = llist;
         llist = n;
     }
     return llist;
 }
 
-/* Generate list from array */
+/* generate list from array */
 node *fromArray(node *arr, int len) {
     node *llist = NULL;
     for (int i = 0; i < len - 1; i++) {
@@ -161,17 +196,36 @@ node *fromArray(node *arr, int len) {
     return llist;
 }
 
-/* get integer from user input for test.c */
-// int selectAction() {
-//     int action;
-//     char *actions = 
-//         "options:\n"
-//           "1. append\n"  
-//           "2. prepend\n"
-//           "3. insert node\n"
-//           "3. reverse\n" 
-//           "9. quit\n";
-//     printf("%s\nchoose action to perform: ", actions);
-//     scanf("%c", &action); 
-//     return action;
-// }
+/* gets user input for creating new node */
+node inputNode(char *strAlias, char *numAlias) {
+    char *string; 
+    int num;
+    printf("enter a %s: ", strAlias);
+    scanf("%s", string); 
+    printf("enter a %s: ", numAlias);
+    scanf("%i", &num); 
+    node n = {.string = string, .num = num}; 
+    return n;
+}
+
+
+/* get integer from user input for test.c 
+    "options:\n"
+        "1. quit\n"
+        "2. prepend\n"  
+        "3. append\n"
+        "4. insert node\n"
+        "5. delete node\n"
+        "5. traverse to node\n"
+        "6. sort\n"
+        "7. reverse\n"; */
+int selectAction() {
+    int action;
+    printf("choose action to perform (enter 1 to quit): ");
+    scanf("%i", &action); 
+    while (action == 0 || action > 7) {
+        printf("invalid choice, please enter valid action: ");
+        scanf("%i", &action);
+    };
+    return action;
+}
