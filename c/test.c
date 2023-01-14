@@ -1,49 +1,73 @@
 /* Testing of data structures */
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "linkedlist.h"
-#include "hashtable.h"
+
+#define MAX_STRING 256
 
 int main(void) {
-    printf("LINKED LIST IMPLENTATION FROM linkedlist.h\n");
-    printf("------------------------------------------\n");
-    printf("enter length of sample list to generate: ");
-    int sampleLength, data, index;
+    int sampleLength, num, index, action;
+    char string[MAX_STRING];
+    node n;
+    char *actions = 
+        "options:\n"
+            "1. quit\n"
+            "2. prepend\n"  
+            "3. append\n"
+            "4. insert node\n"
+            "5. delete node\n"
+            "5. traverse to node\n"
+            "6. sort\n"
+            "7. reverse\n";
+
+    printf("----------------------------------------------\n");  
+    printf("* LINKED LIST IMPLENTATION FROM linkedlist.h *\n");
+    printf("----------------------------------------------\n");
+    printf("\nenter length of sample list to generate: ");
     scanf("%i", &sampleLength);
-    node *llist = makeList(sampleLength);
+    node *llist = randomInts(sampleLength);
     printf("\n llist = ");
-    print(&llist);
-    printf("\n");
-    printf("actions:\n0. quit\n1. prepend node\n2. append node\n3. reverse\n");
-    printf("\nenter action: ");
-    int option;
-    scanf("%i", &option); 
-    while (option != 0) {
-        if (option > 3) {
-            printf("please enter valid option 0 - 3: ");
-            scanf("%d", &option);
+    print(&llist, "num");
+    printf("%s\n", actions);
+    action = selectAction();
+    while (action != 1) {
+        printf("\n");
+        if (action == 2) {
+            n = inputNode("name", "age"); 
+            prepend(&llist, &n);
+        } else if (action == 3) {
+            n = inputNode("name", "age"); 
+            append(&llist, &n);
+        } else if (action == 4) {
+            n = inputNode("name", "age"); 
+            printf("insert at index = ");
+            scanf("%i", &index);
+            node *after = traverseTo(&llist, index - 1);
+            insert(&llist, &n, after);
+        } else if (action == 5) {
+            printf("delete node at index = ");
+            scanf("%i", &index);
+            node *target = traverseTo(&llist, index);
+            //printf("appending %i to llist...\n", num);
+            delete(&llist, target);
+        } else if (action == 6) {
+            printf("sort function is under construction");
+        } else if (action == 7) {
+            printf("reversing llist...\n");
+            reverse(&llist);
         } else {
-            if (option == 1) {
-                printf("enter value to prepend: ");
-                scanf("%i", &data);
-                prepend(&llist, data);
-                printf("prepending %i to llist...\n", data);
-            } else if (option == 2) {
-                printf("enter value to append: ");
-                scanf("%i", &data);
-                append(&llist, data);
-                printf("appending %i to llist...\n", data);
-            } else if (option == 3) {
-                reverse(&llist);
-                printf("reversing llist...\n");
-            }
+            printf("invalid input -- please enter different action\n");
+            //fflush(stdin); 
+            action = selectAction();
         }
         printf("\n llist = ");
-        print(&llist);
+        print(&llist, "all");
         printf("\n");
-        printf("enter action: ");
-        scanf("%i", &option);
+        //fflush(stdin); 
+        action = selectAction();
     }
     printf("test complete!\n");
+    //free(llist);
     return 0;
 }
