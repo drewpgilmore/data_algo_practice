@@ -1,61 +1,67 @@
-/* hashtable.h                       */
-/* Defines hash table data structure */
+// Define hash table data structure
 #include <stdio.h>
 #include <stdlib.h>
-#include "linkedlist.h"
+#include "linkedlist.h" 
 
 #define MAX_NAME 256
-#define TABLE_SIZE 10
+#define TABLE_SIZE 20
 
-/* basic data struct for testing */
-// typedef struct person{
-//     char name[MAX_NAME];
-//     int age;
-//     struct person *next;
-// } person; 
-
-/* array of pointers to structs */
-/* indexes with multiple results will point to head of linked list */
+// Array of pointers to lists of entries
 node *hashTable[TABLE_SIZE];
 
-/* basic function to return int of first char + 1 */
+// Hash function
 unsigned int hash(char *name) {
-    int h = name[0] % TABLE_SIZE + 1;
+    int h = name[0] % TABLE_SIZE;
     return h;
 }
 
-/* make all table pointers NULL */
+// Instantiates empty hash table
 void clearTable() {
     for (int i = 0; i < TABLE_SIZE; i++) {
         hashTable[i] = NULL;
     }
 }
 
-/* display table with lists at each index */
+// Display elements of hash table
 void printTable() {
     for (int i = 0; i < TABLE_SIZE; i++) {
         if (hashTable[i] != NULL) {
             printf("%i: ", i);
-            printList(&hashTable[i], "all");
+            printList(&hashTable[i], "string");
         } else {
             printf("%i: ---\n", i);
         }
     }
 }
 
-/* insert at end of linked list at hash index */
+// Insert in table at index or at end of list at index
+// Nodes are inserted alphabetically based on .string
 void insertPerson(node *person) {
     char *name = person->string; 
     int age = person->num;
     int index = hash(name);
     if (hashTable[index] != NULL) {
-        append(&hashTable[index], person);
+        if (strcmp(name, hashTable[index]->string) < 0) {
+            prepend(&hashTable[index], person);
+        } else {
+            node *i = hashTable[index]; 
+            while (i->next != NULL) {
+                if (strcmp(name, i->next->string) < 0) {
+                    insert(&hashTable[index], person, i);
+                    return;
+                } else {
+                    i = i->next;
+                }
+            }
+            append(&hashTable[index], person);
+            return;
+        }
     } else {
         hashTable[index] = person;
     }   
 }
 
-/* search table for given name */
+// Search table for input string
 node *search(char *name) {
     int h = hash(name);
     printf("%i", h); 
@@ -75,6 +81,3 @@ node *search(char *name) {
     printf("Person not found");
     return 0;
 }
-
-
-
