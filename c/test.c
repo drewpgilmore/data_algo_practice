@@ -1,73 +1,60 @@
-/* Testing of data structures */
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
+#include <string.h>
 #include "linkedlist.h"
 
-#define MAX_STRING 256
+// Default list length for testing
+#define LIST_LENGTH 10
 
+/* LINKED LIST IMPLEMENTATION FROM linkedlist.h 
+    - Node struct = {.string = char *, .num = int .next = node *}
+      node displays as "(node->string, node->num)"
+    - printList() displays list elements starting
+      with given node address onward along with 
+      field to display ("string", "num", or "all")
+*/
 int main(void) {
-    int sampleLength, num, index, action;
-    char string[MAX_STRING];
-    node n;
-    char *actions = 
-        "options:\n"
-            "1. quit\n"
-            "2. prepend\n"  
-            "3. append\n"
-            "4. insert node\n"
-            "5. delete node\n"
-            "5. traverse to node\n"
-            "6. sort\n"
-            "7. reverse\n";
+    /* ------ INSTANTIATE ------ */
+    // From given number of random nodes
+    node *firstList = randomList(LIST_LENGTH);
+    printList(&firstList, "all"); 
 
-    printf("----------------------------------------------\n");  
-    printf("* LINKED LIST IMPLENTATION FROM linkedlist.h *\n");
-    printf("----------------------------------------------\n");
-    printf("\nenter length of sample list to generate: ");
-    scanf("%i", &sampleLength);
-    node *llist = randomInts(sampleLength);
-    printf("\n llist = ");
-    print(&llist, "num");
-    printf("%s\n", actions);
-    action = selectAction();
-    while (action != 1) {
-        printf("\n");
-        if (action == 2) {
-            n = inputNode("name", "age"); 
-            prepend(&llist, &n);
-        } else if (action == 3) {
-            n = inputNode("name", "age"); 
-            append(&llist, &n);
-        } else if (action == 4) {
-            n = inputNode("name", "age"); 
-            printf("insert at index = ");
-            scanf("%i", &index);
-            node *after = traverseTo(&llist, index - 1);
-            insert(&llist, &n, after);
-        } else if (action == 5) {
-            printf("delete node at index = ");
-            scanf("%i", &index);
-            node *target = traverseTo(&llist, index);
-            //printf("appending %i to llist...\n", num);
-            delete(&llist, target);
-        } else if (action == 6) {
-            printf("sort function is under construction");
-        } else if (action == 7) {
-            printf("reversing llist...\n");
-            reverse(&llist);
-        } else {
-            printf("invalid input -- please enter different action\n");
-            //fflush(stdin); 
-            action = selectAction();
-        }
-        printf("\n llist = ");
-        print(&llist, "all");
-        printf("\n");
-        //fflush(stdin); 
-        action = selectAction();
-    }
-    printf("test complete!\n");
-    //free(llist);
-    return 0;
+    // From array of nodes
+    node head      = {.string = "head",      .num = 0};
+    node shoulders = {.string = "shoulders", .num = 1};
+    node knees     = {.string = "knees",     .num = 2};
+    node toes      = {.string = "toes",      .num = 3};
+    node sampleNodes[4] = {head, shoulders, knees, toes};
+    node *secondList = fromArray(sampleNodes, 4);
+    printList(&secondList, "string"); // head->shoulders->knees->toes-> End
+    
+    /* ------ VOID FUNCTIONS ------ */
+    /*  - append() appends node to list
+        - prepend() prepends node to list
+        - delete() deletes node from list
+        - insert() inserts node after specified node
+        - reverse() reverses list */
+    node first  = {.string = "first",  .num = 0};
+    node middle = {.string = "middle", .num = 50};
+    node last   = {.string = "last",   .num = 99};
+    node *thirdList = &middle;
+    prepend(&thirdList, &first); 
+    append(&thirdList, &last); 
+    printList(&thirdList, "string"); // first->middle->last->End
+
+    node another = {.string = "another node!", .num = 75}; 
+    insert(&thirdList, &another, &middle); // insert "another" after "middle"
+    delete(&thirdList, &last);
+    reverse(&thirdList);
+    printList(&thirdList, "all"); // (another node!, 75)->(middle, 50)->(first, 0)->End
+
+    /* ------ NON VOID FUNCTIONS ------ */
+    /*  - tail() returns ptr to last node in list
+        - length() returns number of nodes in list
+        - traverseTo() returns ptr to node at given index */
+    node *longList = randomList(1000);
+    node *fifth = traverseTo(&longList, 4); 
+    delete(&longList, fifth); 
+    int len = length(&longList); 
+    printf("%i\n", len); // 999
 }
