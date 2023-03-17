@@ -5,6 +5,7 @@
 
 // Default list length for testing
 #define LIST_LENGTH 10
+#define PRINT_NODE(node) printf("%s", node->value)
 
 /* LINKED LIST IMPLEMENTATION FROM linkedlist.h 
     - Node struct = {.string = char *, .num = int .next = node *}
