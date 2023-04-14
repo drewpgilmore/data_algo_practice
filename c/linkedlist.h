@@ -4,47 +4,38 @@
 #include <string.h>
 #include <ctype.h>
 
-// Variables for random node generation
-#define NODE_STRING 10
-#define NODE_NUM 100
+// Constraints for random node generation
+#define NODE_MAX_INT 100
+#define NODE_STRING_LEN 10
 
-// Defines node structure that list will hold
+// Basic node structure
 typedef struct node {
-    char *string; 
-    int num;
+    void *value;
     struct node *next;
+    void (*printNode)(struct node *n);
 } node; 
 
-/* ------ FUNCTIONS ------ */ 
-// Display contents of list
-// field = "string", "num", or "all"
-void printList(node **head, char *field) {
+// NODE FUNCTIONS
+void printNum(node *n) {
+    int *value = n->value;
+    printf("%i", *value);
+}
+
+void printString(node *n) {
+    char **value = n->value;
+    printf("%s", *value);
+}
+
+// LINKED LIST FUNCTIONS
+// Print all nodes in list
+void printList(node **head) {
     node *iterator = *head;
-    if (strcmp(field, "num") == 0) {
-        while (iterator != NULL) {
-            printf("%i -> ", iterator->num);
-            iterator = iterator->next;
-        }
-        printf("End\n");
-        return;
-    } else if (strcmp(field, "string") == 0) { 
-        while (iterator != NULL) {
-            printf("%s -> ", iterator->string);
-            iterator = iterator->next;
-        }
-        printf("End\n");
-        return;
-    } else if (strcmp(field, "all") == 0) { 
-        while (iterator != NULL) {
-            printf("(%s, %i) -> ", iterator->string, iterator->num);
-            iterator = iterator->next;
-        }
-        printf("End\n");
-        return;
-    } else {
-        printf("invalid field entered in print function\n");
-        return;
+    while (iterator != NULL) {
+        iterator->printNode(iterator);
+        printf(" -> ");
+        iterator = iterator->next;
     }
+    printf("End\n");
 }
 
 // Return number of nodes in list
@@ -136,7 +127,7 @@ void reverse(node **llist) {
     *llist = prev;
 }
 
-/* ------ TESTING FUNCTIONS ------ */ 
+// TEST FUNCTIONS
 // Generate list from array of nodes
 node *fromArray(node *arr, int length) {
     node *llist = NULL;
@@ -147,43 +138,36 @@ node *fromArray(node *arr, int length) {
     return llist;
 }
 
-// Generate node with random string and int
-// Constrained by NODE_STRING and NODE_NUM
-node *randomNode() {
+// Generate random integer node
+node *randomNumNode() {
     node *n = malloc(sizeof(node));
+    int *num = malloc(sizeof(int));
+    *num = rand() % NODE_MAX_INT; 
+    n->value = num;
+    n->printNode = printNum;
+    return n;
+}
+
+// Generate random string
+char *randomString() {
     char charset[] = "abcdefghijklmnopqrstuvwxyz";
-    int length = rand() % NODE_STRING; 
-    if (length <= 1) {length = 2;}
-    char *str = malloc(length);
+    int length = rand() % NODE_STRING_LEN;
+    if (length <= 1) {length = 2;} 
+    char *str = malloc(NODE_STRING_LEN);
     for (int i = 0; i < length; i++) { 
         int key = rand() % (sizeof charset - 1);
         str[i] = charset[key];
     }
     str[length] = '\0';
-    n->string = str; 
-    n->num = rand() % NODE_NUM; 
-    return n;
+    return str;
 }
 
-// Generate list of random nodes
-node *randomList(int length) {
-    node *llist = randomNode();
-    for (int i = 0; i < length - 1; i++) { 
-        node *n = randomNode();
-        append(&llist, n);
-    }
-    return llist;
-}
-
-// Generate node from user input 
-// strAlias and numAlias indicate intended context of .string and .num
-node inputNode(char *strAlias, char *numAlias) {
-    char *string; 
-    int num;
-    printf("enter a %s: ", strAlias);
-    scanf("%s", string); 
-    printf("enter a %s: ", numAlias);
-    scanf("%i", &num); 
-    node n = {.string = string, .num = num}; 
+// Generate random string node
+node *randomStringNode() {
+    node *n = malloc(sizeof(node));
+    char **str = malloc(sizeof(NODE_STRING_LEN));
+    *str = randomString();
+    n->value = str;
+    n->printNode = printString;
     return n;
 }
