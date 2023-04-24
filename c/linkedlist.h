@@ -94,10 +94,32 @@ void append(node **llist, node *n) {
 }
 
 // Insert node after specified node
-void insert(node **llist, node *n, node *after) {
-    node *tmp = after->next;
-    n->next = tmp; 
-    after->next = n;
+void insert(node **llist, node *n, unsigned int index) {
+    // Handle edge cases
+    // Index out of range
+    if (index >= length(llist)) {
+        printf("Index out of range...");
+        //append(llist, n);
+        return;
+    // Empty list
+    } else if (*llist == NULL) {
+        *llist = n;
+        return;
+    // Insert at beginning
+    } else if (index == 0) {
+        prepend(llist, n);
+        return;
+    // Insert at end
+    } else if (index == length(llist) - 1) {
+        append(llist, n);
+        return;
+    } 
+    
+    // Insert between before & after nodes
+    node *before = traverseTo(llist, index - 1);
+    node *after = traverseTo(llist, index);
+    before->next = n;
+    n->next = after;
 }
 
 // Delete node
