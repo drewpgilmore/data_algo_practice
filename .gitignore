@@ -5,3 +5,9 @@ settings.json
 /c/testing/*
 
 python/adventOfCode/inputs
+*/__pycache__/
+c/.ipynb_checkpoints/
+python/dataTypes/__pycache__/
+python/dataTypes/__pycache__/*
+c/test
+c/testhash
